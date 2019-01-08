@@ -47,15 +47,17 @@ class DoubleLinkedList:
     def remove_node(self, current_marble):
         "remove an item"
 
+        current_marble.previous.next = current_marble.next
+        current_marble.next.previous = current_marble.previous
         current_marble = current_marble.next
         
+        return current_marble
 
 def marbleGame(noElves, noMarbles):
         
     game_on = DoubleLinkedList()
     curmar = None
     scores = {}
-    noElves = 9
     j=0
     
     for i in range(noMarbles):
@@ -66,21 +68,27 @@ def marbleGame(noElves, noMarbles):
             if j in scores:         
                 scores[j]+=i
             else:
+
                 scores[j]=i
                 
             curmar = game_on.reset_curmar(curmar)
-            print(curmar.value)
             scores[j]+= curmar.value
+            curmar = game_on.remove_node(curmar)
             
         else:
 
             curmar = game_on.add_node(newnode, curmar)     
             
-            
         if j ==noElves:
             j=1
         else:
             j+=1
+            
+            
+#    first = curmar        
+#    for i in range(260):
+#        print(first.value)
+#        first = first.next
             
     print(max(zip(scores.values(), scores.keys())))
     
