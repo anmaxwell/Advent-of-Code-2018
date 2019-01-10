@@ -2,20 +2,30 @@ import numpy as np
 import matplotlib.pyplot as plt
 import re
 
-a = np.array([3,9])
-b = np.array([1,-2])
-
-a=a+b
-print(a)
-
-list = ([3,9],[1, -2], [2,4])
-
-data = np.array([list])
-x, y = data.T
-plt.scatter(x,y, marker='^')
-plt.show()
-
-with open('/Users/aniamaxwell/adventofcode/input/day10ainput.txt', 'r') as myfile:
+with open('/Users/aniamaxwell/adventofcode/input/day10input.txt', 'r') as myfile:
     filecntent = myfile.readlines()
 
-print(len(filecntent))
+coords = []
+velocity = []
+
+for item in filecntent:
+    result = re.findall(r"[-+]\d+|\d+", item)
+    coords.append([int(result[0]), int(result[1])])
+    velocity.append([int(result[2]), int(result[3])])
+
+def moveStars(coords):
+    starlist = []
+    for i in range(len(coords)):
+        position = (np.array(coords[i]) + np.array(velocity[i]))
+        starlist.append(list(position))
+        coords[i] = starlist[i]
+    return starlist, coords
+
+
+for i in range(10000):
+    starlist, coords = moveStars((coords))
+
+data = np.array([starlist])
+x, y = data.T
+plt.scatter(x,y, marker='*')
+plt.show()
