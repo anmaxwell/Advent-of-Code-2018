@@ -21,11 +21,13 @@ def moveStars(coords):
         coords[i] = starlist[i]
     return starlist, coords
 
-
-for i in range(10000):
+for i in range(10003):
     starlist, coords = moveStars((coords))
 
+distance = np.array(coords[0]) - np.array(coords[1])
+print(distance)
+
 data = np.array([starlist])
-x, y = data.T
-plt.scatter(x,y, marker='*')
+x,y = data.T
+plt.scatter(x,-y, marker='.')
 plt.show()
