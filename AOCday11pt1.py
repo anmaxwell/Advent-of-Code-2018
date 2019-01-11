@@ -1,15 +1,11 @@
-
-
-
-
 def genBoxVal(gridvalue):
 
     boxes = {}
-    for x in range(220):
-        for y in range(220):
+    for x in range(301):
+        for y in range(301):
             boxname = (x,y)
 
-            boxcalc1 = x+10
+            boxcalc1 = (x+10)
             boxcalc2 = boxcalc1*y
             boxcalc3 = boxcalc2+gridvalue
             boxcalc4 = boxcalc3*boxcalc1
@@ -19,14 +15,34 @@ def genBoxVal(gridvalue):
 
     return boxes
 
-
 def genGridVal(boxset):
-    pass
+
+    gridSum = {}
 
 
-boxset = genBoxVal(71)
+    for i in range(299):
+        for j in range(299):
+            cellSum = 0
 
-values = 0
+            cellSum += boxset[(i, j)]
+            cellSum += boxset[(i, j+1)]
+            cellSum += boxset[(i, j+2)]
+            cellSum += boxset[(i+1, j)]
+            cellSum += boxset[(i+1, j+1)]
+            cellSum += boxset[(i+1, j+2)]
+            cellSum += boxset[(i+2, j)]
+            cellSum += boxset[(i+2, j+1)]
+            cellSum += boxset[(i+2, j+2)]
+            gridSum[(i,j)] = cellSum
+
+    maxVal = max(gridSum, key=lambda key: gridSum[key])
+
+    return gridSum, maxVal
 
 
-print("box value:", boxset[101, 153])
+
+boxset = genBoxVal(18)
+gridSum, maximum = genGridVal(boxset)
+
+print(maximum)
+print(gridSum[maximum])
